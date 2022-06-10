@@ -36,10 +36,10 @@ public class PersonaBD {
 			if(comprobar!=true)
 			{
 				DireccionBD.insertaDireccion(persona.getDomicilio());
-				//Ejecutamos el preparestatement
-				guardaPer.execute();
+				
 			}
-			
+			//Ejecutamos el preparestatement
+			guardaPer.execute();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,12 +55,11 @@ public class PersonaBD {
 			
 			Statement buscPer;
 			buscPer = ConexionBD.cn.createStatement();
-			String consultaPer= "SELECT * FROM OFICINA WHERE CODIGO='"+dniabuscar+"'";
+			String consultaPer= "SELECT * FROM PERSONA WHERE DNI='"+dniabuscar+"'";
 			ResultSet rs=buscPer.executeQuery(consultaPer);
 			
 			//rs.next() es el puntero que recorre la consulta
-			  
-			if(rs!=null)
+			while(rs.next())
 			{
 				return true;
 			}
@@ -73,5 +72,24 @@ public class PersonaBD {
 		
 	}
 	
-
+	public static void borraPersona(String dni)
+	{
+		
+		String deletePer= "DELETE FROM PERSONA WHERE DNI='"+dni+"'";
+		//PrepareStatement comienza con índice 1
+		Statement borraPer;
+		try {
+			borraPer=ConexionBD.cn.createStatement();
+			boolean existe=buscaPersonas(dni);
+			if(existe==true)
+			{
+				borraPer.execute(deletePer);
+			}
+				
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }

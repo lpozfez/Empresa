@@ -103,25 +103,7 @@ public class EmpleadoBD {
 	
 	public static void borraEmpleado(String dni)
 	{
-		
-		String deleteEmpl= "DELETE FROM EMPLEAD WHERE CODIGO='"+dni+"'";
-		//PrepareStatement comienza con índice 1
-		Statement borraEmpl;
-		try {
-			borraEmpl=ConexionBD.cn.createStatement();
-			
-			ArrayList <Empleado> emplcomprobar=buscaEmpleados();
-			Empleado emplabuscar= new Empleado();
-			emplabuscar.setDni(dni);
-			if(emplcomprobar.indexOf(emplabuscar)>=0)
-			{
-				borraEmpl.executeUpdate(deleteEmpl);
-			}
-				
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PersonaBD.borraPersona(dni);
 	}
 	
 	public static void modificaOfi(Empleado emple)

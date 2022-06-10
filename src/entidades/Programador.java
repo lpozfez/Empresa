@@ -44,6 +44,14 @@ public class Programador extends Empleado {
 	public ArrayList<String> getTecnologias() {
 		return tecnologias;
 	}
+	public String getTecnologiasString() {
+		String tecnologias="";
+		for(int i=0;i<this.getTecnologias().size();i++)
+		{
+			tecnologias=this.getTecnologias()+" ";
+		}
+		return tecnologias;
+	}
 
 	/**
 	 * @param tecnologías the tecnologías to set
@@ -52,6 +60,17 @@ public class Programador extends Empleado {
 		this.tecnologias = tecnologias;
 	}
 	
+	
+	
+	
+	@Override
+	public String toString() {
+		return this.getDni()+" "+this.getNombre()+" "+getTecnologiasString();
+		
+	}
+
+
+
 	//MÉTODOS
 	public static int numDiasenMes (GregorianCalendar fecha)
 	{

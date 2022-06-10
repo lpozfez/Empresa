@@ -14,6 +14,10 @@ import metodos.MetodosFechas;
 
 public class ProgramadorBD {
 
+	/**
+	 * Método que inserta un programador dado por parámetro.
+	 * @param pro
+	 */
 	public static void insertProgramador(Programador pro)
 	{
 		//Crear el Statement
@@ -24,25 +28,27 @@ public class ProgramadorBD {
 		try {
 			guardaProg=ConexionBD.cn.prepareStatement(insert);
 			boolean comprobar=PersonaBD.buscaPersonas(pro.getDni());
-			
 			if(comprobar!=true)
 			{
 				accesoBD.EmpleadoBD.insertaEmpleado(pro);
 			}
-			
-			for(int i=0;i<=pro.getTecnologias().size();i++)
+			for(int i=0;i<pro.getTecnologias().size();i++)
 			{
 				guardaProg.setString(1, pro.getDni());
-				guardaProg.setString(2, pro.getTecnologias().get(i));
+				guardaProg.setString(2,pro.getTecnologias().get(i));
 				guardaProg.execute();
 			}
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Método que devuelve un ArrayList de programadores.
+	 * @return
+	 */
 	public static ArrayList<Programador> buscaProgramador()
 	{
 		ArrayList<Programador> programadores=new ArrayList<Programador>();
@@ -53,40 +59,44 @@ public class ProgramadorBD {
 			guardaProg = ConexionBD.cn.createStatement();
 			String consultaProg= "SELECT * FROM PROGRAMADOR JOIN EMPLEAD ON PROGRAMADOR.DNI=EMPLEAD.DNI JOIN PERSONA ON PERSONA.DNI=EMPLEAD.DNI";
 			ResultSet rs=guardaProg.executeQuery(consultaProg);
-			Programador prog=null;
-			int i=0;
+			int numfilas=0;
+			String dni1 = null; 
+			  String nombre = null;
+			  String ap1 = null;
+			  String ap2 = null;
+			  Date fechaNac = null;
+			  String domicilio = null;
+			  Date fechaAlta = null;
+			  String codofi = null;
+			  String tipoEmpl = null;
+			  String tecnologia = null;
+			  GregorianCalendar fnac = null;
+			  GregorianCalendar falt = null;
+			  Oficina ofi = null;
+			  Direccion direccion = null;
+			ArrayList<String> tecnologias=new ArrayList<String>();
 			//rs.next() es el puntero que recorre la consulta
 			while(rs.next())
 			{
-				
-				  String dni=rs.getString("dni"); 
-				  String nombre=rs.getString("nombre"); 
-				  String ap1=rs.getString("ap1");
-				  String ap2=rs.getString("ap2");
-				  Date fechaNac=rs.getDate("fecha_nac");
-				  String domicilio=rs.getString("CODDIR");
-				  Date fechaAlta=rs.getDate("FECHAINI");
-				  String codofi=rs.getString("CODIOFICINA");
-				  String tipoEmpl=rs.getString("TIPOEMPL");
-				  String tecnologia=rs.getString("tecnologia");
-				  
-				  GregorianCalendar fnac=MetodosFechas.cambiasqlDateaGC(fechaNac);
-				  GregorianCalendar falt=MetodosFechas.cambiasqlDateaGC(fechaAlta);
-				  Oficina ofi=OficinaBD.buscaOficinas(codofi);
-				  Direccion direccion=accesoBD.DireccionBD.buscaDirecciones(domicilio);
-				  ArrayList<String> tecnologias=new ArrayList<String>();
-				  tecnologias.add(0, tecnologia);
-				  if(dni.equalsIgnoreCase(rs.getString("dni"))&i!=0)
-				  {
-					  tecnologias.add(i, tecnologia);
-					  i=i++;
-				  } 
-				  //Se crea la oficina con los datos consultados.
-				  prog= new Programador (dni,nombre,ap1,ap2,fnac,direccion,falt,ofi,tipoEmpl,tecnologias);
-				  //Se añade la nueva oficina al ArrayList
-				  programadores.add(prog);
-		
-			}
+				numfilas=numfilas+1;
+				  dni1=rs.getString("dni"); 
+				  nombre=rs.getString("nombre"); 
+				  ap1=rs.getString("ap1");
+				  ap2=rs.getString("ap2");
+				  fechaNac=rs.getDate("fecha_nac");
+				  domicilio=rs.getString("CODDIR");
+				  fechaAlta=rs.getDate("FECHAINI");
+				  codofi=rs.getString("CODIOFICINA");
+				  tipoEmpl=rs.getString("TIPOEMPL");
+				  tecnologia=rs.getString("tecnologia");
+				  tecnologias.add(tecnologia);
+				  fnac=MetodosFechas.cambiasqlDateaGC(fechaNac);
+				  falt=MetodosFechas.cambiasqlDateaGC(fechaAlta);
+				  ofi=OficinaBD.buscaOficinas(codofi);
+				  direccion=accesoBD.DireccionBD.buscaDirecciones(domicilio);
+			}	
+			Programador programador= new Programador (dni1,nombre,ap1,ap2,fnac,direccion,falt,ofi,tipoEmpl,tecnologias);
+			programadores.add(programador);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -94,19 +104,23 @@ public class ProgramadorBD {
 		} 
 		return programadores;
 	}
-	
+	/**
+	 * Método que devuelve un programador dado por parámetro su dni.
+	 * @param dni
+	 * @return
+	 */
 	public static Programador buscaProgramador(String dni)
 	{
 		Programador programador=new Programador();
 		programador.setDni(dni);
 		ArrayList<Programador> programadores=new ArrayList<Programador>();
 		programadores=buscaProgramador();
-		int posicionprog=programadores.indexOf(programador);
+		int posicionProg=programadores.indexOf(programador);
 		
 		for(int i=0;i<programadores.size();i++){
-			if(posicionprog>=0)
+			if(posicionProg>=0)
 			{
-				programador=programadores.get(posicionprog);
+				programador=programadores.get(posicionProg);
 			}else
 			{
 				programador=null;
@@ -117,49 +131,14 @@ public class ProgramadorBD {
 	
 	public static void borraProgramador(String dni)
 	{
-		
-		String deleteProg= "DELETE FROM PROGRAMADOR WHERE DNI='"+dni+"'";
-		//PrepareStatement comienza con índice 1
-		Statement borraProg;
-		try {
-			borraProg=ConexionBD.cn.createStatement();
-			
-			ArrayList <Programador> progcomprobar=buscaProgramador();
-			Programador progabuscar= new Programador();
-			progabuscar.setDni(dni);
-			if(progcomprobar.indexOf(progabuscar)>=0)
-			{
-				borraProg.executeUpdate(deleteProg);
-			}
-				
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PersonaBD.borraPersona(dni);
 	}
-	/*
+	
 	public static void modificaProg(Programador prog)
 	{
-		String updateProg="UPDATE PROGRAMADOR SET TECNOLOGIA=? WHERE DNI='"+prog.getDni()+"'";
-				
-		try {
-			PreparedStatement modifProg;
-			modifProg=ConexionBD.cn.prepareStatement(updateProg);
-			
-			modifProg.setString(1, prog.getTecnologias().get(i));
-			
-			Oficina ofi=prog.getOficinatrab();
-			OficinaBD.modificaOfi(ofi);
-			
-			modifProg.execute();
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		PersonaBD.borraPersona(prog.getDni());
+		ProgramadorBD.insertProgramador(prog);
 	}
-	*/
-	
-	
+		
 	
 }

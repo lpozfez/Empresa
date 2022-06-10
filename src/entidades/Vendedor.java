@@ -35,6 +35,12 @@ public class Vendedor extends Empleado {
 	
 
 	
+	public Vendedor() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
 	public String getZona() {
 		String aux=this.zona;
 		return aux;
