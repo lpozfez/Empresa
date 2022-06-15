@@ -10,6 +10,7 @@ import accesoBD.PersonaBD;
 import accesoBD.ProgramadorBD;
 import accesoBD.VendedorBD;
 import entidades.*;
+import gui.JfPrincipal;
 import metodos.MetodosFechas;
 
 public class Principal {
@@ -18,6 +19,15 @@ public class Principal {
 		// TODO Auto-generated method stub
 
 		accesoBD.ConexionBD.creaConexion();
+		
+		JfPrincipal ventanaInicio = new JfPrincipal();
+		ventanaInicio.setVisible(true);
+		
+		metodos.MetodosInterfaz.centraVentana(ventanaInicio);
+		
+		
+		
+		
 //Pruebo el método cambia fechas
 		/*
 		System.out.println("Pasar de GC a SQLDate");

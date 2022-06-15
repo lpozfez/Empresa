@@ -5,8 +5,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 
+import comparadores.ComparadorOfiyNombre;
 import entidades.*;
 import metodos.MetodosFechas;
 public class EmpleadoBD {
@@ -35,6 +38,8 @@ public class EmpleadoBD {
 			e.printStackTrace();
 		}
 	}
+	
+
 	
 	public static ArrayList<Empleado> buscaEmpleados()
 	{
@@ -129,5 +134,25 @@ public class EmpleadoBD {
 		}
 	}
 	
+	/**
+	 * Método que devuelve un ArrayList con los datos de la tabla empleado, vendedor y programador
+	 * @return -ArrayList<Empleado>
+	 */
+	public static ArrayList<Empleado> leeEmpleados()
+	{
+		ArrayList<Empleado> empleados=new ArrayList<Empleado>();
+		ArrayList<Programador> programadores=ProgramadorBD.buscaProgramador();
+		ArrayList<Vendedor>vendedores=VendedorBD.buscaVendedor();
+		empleados.addAll(programadores);
+		empleados.addAll(vendedores);
+		return empleados;
+	}
+	
+	public static ArrayList<Empleado> ordenaEmpleados(ArrayList<Empleado> empleados)
+	{
+		return empleados;
+		//return Collections.sort(empleados, ComparadorOfiyNombre);
+		
+	}
 	
 }

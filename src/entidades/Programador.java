@@ -65,7 +65,7 @@ public class Programador extends Empleado {
 	
 	@Override
 	public String toString() {
-		return this.getDni()+" "+this.getNombre()+" "+getTecnologiasString();
+		return this.getDni();
 		
 	}
 

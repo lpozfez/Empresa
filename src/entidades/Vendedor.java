@@ -65,7 +65,7 @@ public class Vendedor extends Empleado {
 
 	@Override
 	public String toString() {
-		return "Vendedor [zona=" + zona + "]";
+		return this.getDni();
 	}
 
 	

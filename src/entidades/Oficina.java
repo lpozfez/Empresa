@@ -77,7 +77,7 @@ public class Oficina {
 
 	@Override
 	public String toString() {
-		return "Oficina "+codigo+" - "+nombre+" Ubicada en: "+ getDireccion();
+		return this.nombre;
 	}
 
 	/**

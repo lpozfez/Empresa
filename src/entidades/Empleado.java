@@ -76,7 +76,7 @@ public class Empleado extends Persona {
 	@Override
 	public String toString() {
 		//return String.format("%s-%s %s %s",super.getDni(),super.nombreCompleto(),this.fechaAlta,this.oficinatrab);
-		return super.getDni()+" - "+super.nombreCompleto()+" "+this.fechaAlta+" "+this.oficinatrab;
+		return super.getDni();
 	}
 	
 	/**

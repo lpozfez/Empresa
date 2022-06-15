@@ -74,6 +74,52 @@ public class DireccionBD {
 		
 	}
 	
+	public static ArrayList<String> buscaLocalidades()
+	{
+		ArrayList<String> localidades=new ArrayList<String>();
+		
+		try {
+			
+			Statement guardaLoca;
+			guardaLoca = ConexionBD.cn.createStatement();
+			String consultaLoc= "SELECT * FROM LOCALIDAD";
+			ResultSet rs=guardaLoca.executeQuery(consultaLoc);
+			//rs.next() es el puntero que recorre la consulta
+			while(rs.next())
+			{
+				String localidad=rs.getString("NOMBRELOC");
+				 localidades.add(localidad);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return localidades;
+	}
+	public static ArrayList<String> buscaProvincias()
+	{
+		ArrayList<String> provincias=new ArrayList<String>();
+		try {
+			
+				Statement guardaProv;
+				guardaProv = ConexionBD.cn.createStatement();
+				String consultaProv= "SELECT * FROM LOCALIDAD";
+				ResultSet rs=guardaProv.executeQuery(consultaProv);
+				//rs.next() es el puntero que recorre la consulta
+				while(rs.next())
+				{
+					String provincia=rs.getString("NOMBREPROV");
+					 provincias.add(provincia);
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		return provincias;
+	}
+	
 	public static entidades.Direccion buscaDirecciones(String codigo)
 	{
 		entidades.Direccion direccion=new entidades.Direccion();

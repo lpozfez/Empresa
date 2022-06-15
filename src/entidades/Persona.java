@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
+import metodos.MetodosPedirdatos;
+
 public abstract class Persona implements Comparable <Persona> {
 //Añadir excepciones a los set
 	private String dni;
@@ -80,7 +82,11 @@ public abstract class Persona implements Comparable <Persona> {
 	}
 	public void setDni(String dni) {
 		String aux=new String(dni);
-		this.dni = aux;
+		
+		if(MetodosPedirdatos.ValidaDni(aux)==true);
+		{
+			this.dni = aux;
+		}
 	}
 	
 	public GregorianCalendar getFnac() {
